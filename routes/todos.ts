@@ -1,7 +1,7 @@
 import { Router }  from 'express';
 import {Todo} from '../models/todo';
 
-const todos: Todo[] = []; //need to specify the type of data that will be in this array
+let todos: Todo[] = []; //need to specify the type of data that will be in this array
 
 const router = Router();
 
@@ -28,6 +28,11 @@ router.put('/todo/:todoId', (req, res, next) => {
         return res.status(200).json({message: "Updated todo!", todos: todos})
     }
     res.status(404).json({message: 'Could not find todo for this id.'})
+})
+
+router.delete("/todo/:todoId", (req, res, next) => {
+    todos = todos.filter(todoItem => todoItem.id !== req.params.todoId);
+    res.status(200).json({message: "Deleted todo.", todos: todos})
 })
 
 export default router;
